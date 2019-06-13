@@ -1,0 +1,104 @@
+Templates - views - URLs
+========================
+
+create template
+================
+Template is equivalent to HTML
+Views contain the logic of what to be displayed
+URLs will control the initial route
+
+we created views and URL in the last session.
+To create template at the project level, 
+create the below file
+
+/helloWorld/templates/home.html with the below content
+
+<h1>Homepage</h1>
+
+
+update settings.py to look at project level templates
+
+TEMPLATES = [
+    {
+        ...
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], 
+        ...
+    },
+]
+
+create Class based views
+=========================
+Update the demo/views.py file with the below content
+
+from django.views.generic import TemplateView
+class DemoView(TemplateView):
+    template_name = 'home.html'
+
+Update app level URLs
+=====================
+
+update the demp/urls.py file with the below content
+
+from django.urls import path
+from .views import DemoView
+
+urlpatterns = [
+    path('', DemoView.as_view(), name='home'),
+]
+
+Launch the webpage
+==================
+python manage.py runserver
+
+and open the web broswer and launch http://127.0.0.1:8000
+
+================================================================================================
+
+Add an FAQ Page
+=================
+similar to homepage
+
+create template
+===============
+under project level templates folder create FAQ.html and update it with 
+
+<h1>FAQs</h1>
+
+create class based view
+=======================
+open demo/views.py file and add the below class for faq page
+
+class FaqView(TemplateView):
+    template_name = 'FAQ.html'
+
+connect it to URL
+=================
+open demo/urls.py and update as below.
+Update import class name for FaqPage and add path
+
+from django.urls import path
+
+from .views import DemoView
+
+from .views import FaqView
+
+
+urlpatterns = [
+    
+	path('', DemoView.as_view(), name='home'),
+
+        path('faq/', FaqView.as_view(), name='faq'),
+]
+
+
+
+Launch the page
+===============
+
+Start up the web server with 
+
+python manage.py runserver, 
+
+navigate to http://127.0.0.1:8000/FAQ, 
+
+and you can see our new “FAQ page”.
