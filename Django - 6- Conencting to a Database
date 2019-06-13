@@ -1,0 +1,107 @@
+Open demo\models.py file and add the below content to create table
+==================================================================
+
+from django.db import models
+
+class Demo(models.Model):
+    text = models.TextField()
+
+Table - Demo
+field - text
+type - textfield
+
+update Django about the DB models
+=================================
+
+python manage.py makemigrations demo
+python manage.py migrate
+
+Create Django Admin to write to Sqlite
+======================================
+
+python manage.py createsuperuser
+
+leave everything blank except password (boom1234) to get default wsv admin user name.
+
+Restart the Django server with python manage.py runserver and in your browser 
+go to http://127.0.0.1:8000/admin/. 
+
+Adding app to admin
+===================
+Open demo/admin.py and add the below code
+
+from django.contrib import admin
+from .models import Demo
+
+admin.site.register(Demo)
+
+Refersh the browser to see Demo table added here.
+
+Add data to table
+=================
+OPen demo/models.py and add the below function to the existing class.
+
+    def __str__(self):
+        return self.text[:50]
+
+click on Demo and add messages
+
+
+Update views
+============
+update below code in demo/views.py
+
+from django.views.generic import ListView
+from .models import Demo
+
+
+class DemoView(ListView):
+    model = Demo
+    template_name = 'home.html'
+
+update templates
+================
+update below code in templates/home.html
+
+<h1>homepage of Django Demo</h1>
+<ul>
+  {% for post in object_list %}
+    <li>{{ Demo.text }}</li>
+  {% endfor %}
+</ul>
+
+object_list - name of the variable which listView returns
+Demo.text - table and field name
+
+configure project level URLs
+==============================
+
+open helloWorld/urls.py and update the below code
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('demo.urls')),
+]
+
+configure app level URL
+==========================
+
+open demo/urls.py and update the below code
+
+from django.urls import path
+from .views import DemoView
+
+urlpatterns = [
+    path('', DemoView.as_view(), name='home'),
+]
+
+Launch
+======
+Restart the server with 
+python manage.py runserver 
+and navigate to our homepage http://127.0.0.1:8000/ 
+
+which now lists out contents of Demo table.
