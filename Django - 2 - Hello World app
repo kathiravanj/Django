@@ -1,0 +1,135 @@
+create project directory
+========================
+mkdir django
+cd django
+
+install django here 
+===================
+python -m pipenv install django==2.2.0
+
+Launch virtual shell
+==================
+python -m pipenv shell
+
+start a project
+===============
+django-admin startproject helloWorld .
+
+It creates the following files,
+settings.py file controls our project’s settings, 
+urls.py tells Django which pages to build in response to a browser or url request, and 
+wsgi.py, which stands for web server gateway interface, helps Django serve our eventual web pages. 
+manage.py is used to execute various Django commands such as running the local web server or 
+creating a new app.
+
+start the local built in web server
+===================================
+python manage.py runserver
+
+It might say there 14 unapplied migrations since I never configured or migrated anything.
+
+Migrate the built-in apps like authentication, admin,etc.
+=========================================================
+python manage.py migrate
+
+verify by running the below command again and it shouldnt show the errors.
+python manage.py runserver
+
+create an app
+=============
+app is similar to web-pages
+Lets create an app "demo"
+
+control c
+python manage.py startapp demo
+
+Django has created a pages directory with the following files:
+
+(helloworld) $ tree
++-- demo
+¦   +-- __init__.py
+¦   +-- admin.py
+¦   +-- apps.py
+¦   +-- migrations
+¦   ¦   +-- __init__.py
+¦   +-- models.py
+¦   +-- tests.py
+¦   +-- views.py
+
+Let’s review what each new pages app file does:
+
+    admin.py is a configuration file for the built-in Django Admin app
+    apps.py is a configuration file for the app itself
+    migrations/ keeps track of any changes to our models.py file so our database and models.py stay in sync
+    models.py is where we define our database models, which Django automatically translates into database tables
+    tests.py is for our app-specific tests
+    views.py is where we handle the request/response logic for our web app
+
+Add the new app "pages" to the hellWorld project
+================================================
+open settings.py and scroll down to INSTALLED_APPS where you’ll see six built-in Django apps already there. 
+Add our new pages app at the bottom because our app might depend on built-in apps.
+
+# helloworld_project/settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'demo.apps.DemoConfig', # new
+]
+
+we are following a pattern because they are additional options which we will see later. 
+Still just "demo" will work.
+
+Configure views 
+================
+
+URL -> View -> Model (typically) -> Template
+
+Update file demo/views.py with the below content
+
+from django.http import HttpResponse
+def demoView(request):
+    return HttpResponse('Hello World... Welcome to Django demo!')
+
+Configure URLs
+==============
+
+update demo/urls.py with the below content
+
+from django.urls import path
+from .views import demoView
+
+urlpatterns = [
+    path('', demoView, name='home')
+]
+
+imported path from Django to power our URL pattern
+and views.py which we craeted.
+Blank is the regular exp pattern as there is no webpage URL name
+
+Configure project level URL
+===========================
+Update the existing helloworld_project/urls.py file as follows:
+
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('demo.urls')),
+]
+
+imported include and created a new urlpattern for demo app.
+
+Launch the project
+==================
+python manage.py runserver
+
+and then
+
+refresh http://127.0.0.1:8000/
