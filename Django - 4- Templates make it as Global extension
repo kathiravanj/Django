@@ -1,0 +1,46 @@
+create a file base.html under project level template folder and add the below
+==============================================================================
+<header>
+  
+<a href="{% url 'home' %}">Home</a> | <a href="{% url 'faq' %}">FAQ</a>
+
+</header>
+
+
+
+{% block content %}
+
+{% endblock %}
+
+content tag is used for extending via inheritance
+
+Let’s update our home.html and about.html to extend the base.html template.
+
+Add the below in the templates\base.html
+=========================================
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Homepage</h1>
+{% endblock content %}
+
+Add the below in the templates\faq.html
+=======================================
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>FAQs</h1>
+{% endblock %}
+
+
+launch
+======
+
+Now if you start up the server with 
+
+python manage.py runserver a
+
+nd open up our web pages again at http://127.0.0.1:8000/ and 
+http://127.0.0.1:8000/faq
+
+ you’ll see the header is magically included in both locations.
