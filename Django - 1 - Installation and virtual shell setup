@@ -1,0 +1,62 @@
+https://djangoforbeginners.com/initial-setup/
+
+Install Python 3 on Windows
+===========================
+Go to https://www.python.org/downloads/
+CLick on download button
+Install the package and add the installation directory "Python" to env variables path.
+
+verify by 
+python --version
+Python 3.7.3
+
+Install pipenv
+===============
+to create a virtual env for each Django project.
+Because each project may use different version of python or Django
+
+python -m pip3 install pipenv
+OR
+python -m pip install pipenv
+
+m switch for running module as script in command line.
+
+Install Django
+==============
+
+mkdir django
+cd django
+python -m pipenv install django==2.2.0
+
+Two files - Pipfile and Pipfile.lock will appear inside c:\django folder
+
+-------------------------------------------------------training starts here
+python -m pipenv shell
+
+will activate the virtual env shell based on these config files.
+
+(django) $ django-admin startproject test_project .
+
++-- manage.py
++-- test_project
+    +-- __init__.py
+    +-- settings.py
+    +-- urls.py
+    +-- wsgi.py
+
+will start a project and create directories. The dot is for preventing redundant directories
+getting created inside project folder
+
+(django) $ python manage.py runserver
+
+will run django's local webserver
+
+verify it by going to 
+
+http://127.0.0.1:8000/ 
+
+(django) $ exit
+
+to exit virtual env
+
+
