@@ -14,9 +14,9 @@ create a file base.html under project level template folder and add the below
 
 content tag is used for extending via inheritance
 
-Let’s update our home.html and about.html to extend the base.html template.
+Let’s update our home.html and faq.html to extend the base.html template.
 
-Add the below in the templates\base.html
+Add the below in the templates\home.html
 =========================================
 {% extends 'base.html' %}
 
