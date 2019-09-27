@@ -30,7 +30,7 @@ python -m pipenv install django==2.2.0
 
 Two files - Pipfile and Pipfile.lock will appear inside c:\django folder
 
--------------------------------------------------------training starts here
+-------------------------------------------------------
 python -m pipenv shell
 
 will activate the virtual env shell based on these config files.
